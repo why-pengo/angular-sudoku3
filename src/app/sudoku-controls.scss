@@ -1,0 +1,88 @@
+.controls-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.top-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: stretch;
+}
+
+.game-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+
+  mat-form-field {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  button {
+    white-space: nowrap;
+  }
+}
+
+.completion-message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 4px;
+  font-weight: 500;
+
+  mat-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.number-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.number-button {
+  aspect-ratio: 1;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+
+  button {
+    flex: 1;
+  }
+}
+
+mat-button-toggle-group {
+  width: 100%;
+
+  mat-button-toggle {
+    flex: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .controls-container {
+    max-width: 100%;
+  }
+
+  .number-button {
+    font-size: 20px;
+  }
+}
+

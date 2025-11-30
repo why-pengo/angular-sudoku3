@@ -1,11 +1,17 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
+import { SudokuBoard } from './sudoku-board';
+import { SudokuControls } from './sudoku-controls';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [
+    SudokuBoard,
+    SudokuControls,
+    MatToolbarModule
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('as3');
 }

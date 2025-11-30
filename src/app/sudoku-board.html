@@ -1,0 +1,24 @@
+<div class="board-container">
+  <div class="board">
+    @for (row of board(); track trackByIndex($index); let rowIndex = $index) {
+      <div class="row">
+        @for (cell of row; track trackByIndex($index); let colIndex = $index) {
+          <div
+            [class]="getCellClass(rowIndex, colIndex).join(' ')"
+            (click)="onCellClick(rowIndex, colIndex)">
+            @if (cell.value !== 0) {
+              <span class="cell-value">{{ cell.value }}</span>
+            } @else if (getPencilMarks(rowIndex, colIndex).length > 0) {
+              <div class="pencil-marks">
+                @for (mark of getPencilMarks(rowIndex, colIndex); track mark) {
+                  <span class="pencil-mark">{{ mark }}</span>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+
