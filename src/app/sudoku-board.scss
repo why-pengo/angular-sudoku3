@@ -38,21 +38,16 @@
   transition: background-color 0.2s;
   font-size: clamp(16px, 3vmin, 32px);
 
-  //&:nth-child(3n) {
-  //  border-right: 2px solid #000;
-  //}
-
-  //&:nth-child(3n+1) {
-  //  border-left: 2px solid #000;
-  //}
+  &:nth-child(3n) {
+    border: none;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 2px solid #000;
+  }
 }
 
 .row:nth-child(3n) .cell {
   border-bottom: 2px solid #000;
-}
-
-.row:nth-child(3n+1) .cell {
-  border-top: 2px solid #000;
 }
 
 .cell-value {
