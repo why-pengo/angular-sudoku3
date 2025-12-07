@@ -3,20 +3,20 @@
 @include mat.core();
 
 $light-theme: mat.define-theme(
-    (
-      color: (
-        theme-type: light,
-        primary: mat.$violet-palette,
-      ),
-    )
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$violet-palette,
+    ),
+  )
 );
 $dark-theme: mat.define-theme(
-    (
-      color: (
-        theme-type: dark,
-        primary: mat.$violet-palette,
-      ),
-    )
+  (
+    color: (
+      theme-type: dark,
+      primary: mat.$violet-palette,
+    ),
+  )
 );
 
 html {
@@ -47,4 +47,3 @@ html.dark-mode {
     color: #e0e0e0;
   }
 }
-
