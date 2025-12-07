@@ -3,29 +3,24 @@
 @include mat.core();
 
 $light-theme: mat.define-theme(
-  (
-    color: (
-      theme-type: light,
-      primary: mat.$violet-palette,
-    ),
-  )
+    (
+      color: (
+        theme-type: light,
+        primary: mat.$violet-palette,
+      ),
+    )
 );
-
 $dark-theme: mat.define-theme(
-  (
-    color: (
-      theme-type: dark,
-      primary: mat.$violet-palette,
-    ),
-  )
+    (
+      color: (
+        theme-type: dark,
+        primary: mat.$violet-palette,
+      ),
+    )
 );
 
 html {
   @include mat.all-component-themes($light-theme);
-}
-
-html.dark-mode {
-  @include mat.all-component-colors($dark-theme);
 }
 
 html,
@@ -45,8 +40,11 @@ body {
 }
 
 html.dark-mode {
+  @include mat.all-component-colors($dark-theme);
+
   body {
     background-color: #121212;
     color: #e0e0e0;
   }
 }
+

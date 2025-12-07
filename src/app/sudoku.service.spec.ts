@@ -1,11 +1,18 @@
 import { describe, it, expect, beforeEach } from 'vitest';
+import { TestBed } from '@angular/core/testing';
 import { SudokuService } from './sudoku.service';
 
 describe('SudokuService', () => {
   let service: SudokuService;
 
   beforeEach(() => {
-    service = new SudokuService();
+    TestBed.configureTestingModule({
+      providers: [SudokuService],
+    });
+    service = TestBed.inject(SudokuService);
+
+    // Clear localStorage before each test
+    localStorage.clear();
   });
 
   it('should create a service instance', () => {
@@ -137,5 +144,39 @@ describe('SudokuService', () => {
       expect(updatedBoard[emptyRow][emptyCol].value).toBe(0);
       expect(updatedBoard[emptyRow][emptyCol].pencilMarks.size).toBe(0);
     }
+  });
+
+  it('should toggle dark mode', () => {
+    const initialMode = service.isDarkMode();
+    service.toggleDarkMode();
+    expect(service.isDarkMode()).toBe(!initialMode);
+
+    // Toggle again
+    service.toggleDarkMode();
+    expect(service.isDarkMode()).toBe(initialMode);
+  });
+
+  it('should save and load dark mode preference', () => {
+    // Set dark mode
+    service.isDarkMode.set(true);
+    service.toggleDarkMode(); // This will save it
+
+    // Check localStorage
+    const saved = localStorage.getItem('sudoku-dark-mode');
+    expect(saved).toBe('false');
+  });
+
+  it('should initialize dark mode from localStorage', () => {
+    // Set a preference in localStorage
+    localStorage.setItem('sudoku-dark-mode', 'true');
+
+    // Create a new service instance
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [SudokuService],
+    });
+    const newService = TestBed.inject(SudokuService);
+
+    expect(newService.isDarkMode()).toBe(true);
   });
 });
