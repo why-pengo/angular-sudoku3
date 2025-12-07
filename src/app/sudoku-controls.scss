@@ -1,28 +1,42 @@
 .controls-container {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 20px;
-  padding: 20px;
   width: 100%;
-  max-width: 500px;
+  min-height: 56px;
+  padding: 8px 0;
 }
 
-.top-controls {
+.left-controls {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: stretch;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .game-controls {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
-  flex-wrap: wrap;
 
-  mat-form-field {
-    flex: 1;
-    min-width: 120px;
+  .difficulty-select {
+    width: 110px;
+
+    ::ng-deep {
+      .mat-mdc-text-field-wrapper {
+        padding-bottom: 0;
+      }
+
+      .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+      }
+
+      .mat-mdc-form-field-infix {
+        padding-top: 8px;
+        padding-bottom: 8px;
+        min-height: 40px;
+      }
+    }
   }
 
   button {
@@ -30,59 +44,124 @@
   }
 }
 
+.right-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
 .completion-message {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 15px;
+  gap: 8px;
+  padding: 8px 12px;
   background-color: #4caf50;
   color: white;
-  border-radius: 4px;
+  border-radius: 20px;
   font-weight: 500;
+  font-size: 14px;
+  white-space: nowrap;
 
   mat-icon {
-    font-size: 28px;
-    width: 28px;
-    height: 28px;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
   }
 }
 
 .number-pad {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  display: flex;
+  gap: 4px;
 }
 
 .number-button {
-  aspect-ratio: 1;
-  font-size: 24px;
+  min-width: 36px;
+  width: 36px;
+  height: 36px;
+  font-size: 16px;
   font-weight: 500;
+  line-height: 36px;
 }
 
-.action-buttons {
-  display: flex;
-  gap: 10px;
-
-  button {
-    flex: 1;
-  }
+.clear-button {
+  min-width: 36px;
+  width: 36px;
+  height: 36px;
 }
 
 mat-button-toggle-group {
-  width: 100%;
-
   mat-button-toggle {
-    flex: 1;
+    .mat-button-toggle-label-content {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 0 8px;
+    }
+  }
+}
+
+// Responsive design for smaller screens
+@media (max-width: 1200px) {
+  .controls-container {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .left-controls {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .right-controls {
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-end;
   }
 }
 
 @media (max-width: 768px) {
   .controls-container {
-    max-width: 100%;
+    gap: 8px;
+    padding: 4px 0;
   }
 
-  .number-button {
-    font-size: 20px;
+  .left-controls {
+    gap: 8px;
+  }
+
+  .right-controls {
+    gap: 6px;
+  }
+
+  .number-button,
+  .clear-button {
+    min-width: 32px;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .toggle-label,
+  .button-label {
+    display: none;
+  }
+
+  .game-controls {
+    .difficulty-select {
+      width: 90px;
+    }
+  }
+
+  .completion-message {
+    padding: 6px 10px;
+    font-size: 12px;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
   }
 }
 
