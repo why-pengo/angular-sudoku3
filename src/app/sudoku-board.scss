@@ -20,8 +20,8 @@
 }
 
 :host-context(.dark-mode) .board {
-  background-color: #1a1a1a;
-  border-color: #1a1a1a;
+  background-color: #666;
+  border-color: #666;
 }
 
 .row {
@@ -59,7 +59,7 @@
   &:nth-child(3n) {
     border-top: 1px solid #444;
     border-bottom: 1px solid #444;
-    border-right: 2px solid #1a1a1a;
+    border-right: 2px solid #666;
   }
 }
 
@@ -68,7 +68,7 @@
 }
 
 :host-context(.dark-mode) .row:nth-child(3n) .cell {
-  border-bottom: 2px solid #1a1a1a;
+  border-bottom: 2px solid #666;
 }
 
 .cell-value {
