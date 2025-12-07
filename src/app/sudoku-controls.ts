@@ -15,10 +15,10 @@ import { SudokuService } from './sudoku.service';
     MatIconModule,
     MatButtonToggleModule,
     MatSelectModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   templateUrl: './sudoku-controls.html',
-  styleUrl: './sudoku-controls.scss'
+  styleUrl: './sudoku-controls.scss',
 })
 export class SudokuControls {
   private sudokuService = inject(SudokuService);
@@ -72,4 +72,3 @@ export class SudokuControls {
     this.sudokuService.clearCell(selected.row, selected.col);
   }
 }
-
