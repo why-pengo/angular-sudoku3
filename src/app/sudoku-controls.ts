@@ -27,6 +27,7 @@ export class SudokuControls {
   selectedCell = this.sudokuService.selectedCell;
   difficulty = this.sudokuService.difficulty;
   isGameComplete = this.sudokuService.isGameComplete;
+  isDarkMode = this.sudokuService.isDarkMode;
 
   @HostListener('window:keydown', ['$event'])
   handleKeyPress(event: KeyboardEvent): void {
@@ -70,5 +71,9 @@ export class SudokuControls {
     if (!selected) return;
 
     this.sudokuService.clearCell(selected.row, selected.col);
+  }
+
+  toggleDarkMode(): void {
+    this.sudokuService.toggleDarkMode();
   }
 }

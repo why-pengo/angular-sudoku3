@@ -1,4 +1,5 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, effect, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 export interface Cell {
   value: number; // 0 means empty
@@ -20,6 +21,8 @@ export interface GameState {
 })
 export class SudokuService {
   private readonly STORAGE_KEY = 'sudoku-game-state';
+  private readonly DARK_MODE_KEY = 'sudoku-dark-mode';
+  private platformId = inject(PLATFORM_ID);
 
   board = signal<Cell[][]>(this.createEmptyBoard());
   solution = signal<number[][]>([]);
@@ -28,6 +31,7 @@ export class SudokuService {
   difficulty = signal<'easy' | 'medium' | 'hard'>('medium');
   startTime = signal<number>(Date.now());
   elapsedTime = signal<number>(0);
+  isDarkMode = signal<boolean>(false);
 
   isGameComplete = computed(() => {
     const currentBoard = this.board();
@@ -46,7 +50,20 @@ export class SudokuService {
   });
 
   constructor() {
+    this.loadDarkModePreference();
     this.loadGameState();
+
+    // Set up effect to apply dark mode class
+    if (isPlatformBrowser(this.platformId)) {
+      effect(() => {
+        const darkMode = this.isDarkMode();
+        if (darkMode) {
+          document.documentElement.classList.add('dark-mode');
+        } else {
+          document.documentElement.classList.remove('dark-mode');
+        }
+      });
+    }
   }
 
   private createEmptyBoard(): Cell[][] {
@@ -187,6 +204,30 @@ export class SudokuService {
 
   clearGameState(): void {
     localStorage.removeItem(this.STORAGE_KEY);
+  }
+
+  toggleDarkMode(): void {
+    this.isDarkMode.update((mode) => !mode);
+    this.saveDarkModePreference();
+  }
+
+  private loadDarkModePreference(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const saved = localStorage.getItem(this.DARK_MODE_KEY);
+      if (saved !== null) {
+        this.isDarkMode.set(saved === 'true');
+      } else {
+        // Check system preference
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        this.isDarkMode.set(prefersDark);
+      }
+    }
+  }
+
+  private saveDarkModePreference(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(this.DARK_MODE_KEY, String(this.isDarkMode()));
+    }
   }
 
   // Sudoku generation logic

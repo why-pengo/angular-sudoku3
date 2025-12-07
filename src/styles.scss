@@ -2,7 +2,7 @@
 
 @include mat.core();
 
-$theme: mat.define-theme(
+$light-theme: mat.define-theme(
   (
     color: (
       theme-type: light,
@@ -11,8 +11,21 @@ $theme: mat.define-theme(
   )
 );
 
+$dark-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: mat.$violet-palette,
+    ),
+  )
+);
+
 html {
-  @include mat.all-component-themes($theme);
+  @include mat.all-component-themes($light-theme);
+}
+
+html.dark-mode {
+  @include mat.all-component-colors($dark-theme);
 }
 
 html,
@@ -26,4 +39,12 @@ body {
 
 body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html.dark-mode {
+  body {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
 }
