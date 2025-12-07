@@ -1,6 +1,15 @@
 // Test setup for Vitest
 // No zone.js needed for zoneless Angular
 
+import { getTestBed } from '@angular/core/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
+
+// Initialize Angular testing environment
+getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+
 // Mock localStorage
 const localStorageMock = {
   store: {} as Record<string, string>,
@@ -20,4 +29,19 @@ const localStorageMock = {
 
 Object.defineProperty(globalThis, 'localStorage', {
   value: localStorageMock,
+});
+
+// Mock matchMedia for dark mode system preference detection
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: (query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => true,
+  }),
 });

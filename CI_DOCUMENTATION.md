@@ -61,9 +61,11 @@ The app is automatically deployed to GitHub Pages when code is pushed to the `ma
 
 ### Output Directory
 
-- Build output: `docs/browser/`
+- Build output: `docs/` (ignored by git, generated during CI)
 - Deployed from: `gh-pages` branch
 - Base href: `/angular-sudoku3/`
+
+**Note**: The `docs` directory is in `.gitignore` and is only created during the CI/CD build process. It is not committed to the repository.
 
 ### GitHub Pages Setup
 
@@ -79,14 +81,17 @@ The site will be available at: `https://YOUR_USERNAME.github.io/angular-sudoku3/
 
 ### Manual Deployment
 
-You can also deploy manually:
+You can also build and deploy manually:
 
 ```bash
 # Build for GitHub Pages
 npm run build:gh-pages
 
-# The docs/browser/ directory can be deployed to any static hosting
+# The docs/ directory will contain the build output
+# This directory is ignored by git and only used for deployment
 ```
+
+**Note**: The `docs` directory is automatically created during builds and is listed in `.gitignore`. It should not be committed to the repository.
 
 ## Running All CI Checks Locally
 
