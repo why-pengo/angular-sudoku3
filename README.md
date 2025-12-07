@@ -2,6 +2,10 @@
 
 A modern, feature-rich Sudoku game built with Angular 21.
 
+## 🎮 [Play Online](https://why-pengo.github.io/angular-sudoku3/)
+
+The app is automatically deployed to GitHub Pages on every push to main.
+
 ## Features
 
 - ✅ **Angular 21** - Built with the latest Angular version
@@ -46,7 +50,15 @@ Navigate to `http://localhost:4200/`. The application will automatically reload 
 npm run build
 ```
 
-The build artifacts will be stored in the `dist/` directory.
+The build artifacts will be stored in the `docs/` directory.
+
+For GitHub Pages deployment:
+
+```bash
+npm run build:gh-pages
+```
+
+This builds with the correct base href for GitHub Pages hosting.
 
 ### Running Tests
 

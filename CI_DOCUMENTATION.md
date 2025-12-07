@@ -1,12 +1,18 @@
 # CI/CD Documentation
 
-## GitHub Actions CI Pipeline
+## GitHub Actions Workflows
 
-This project includes a comprehensive CI pipeline that runs on every push and pull request to the main/master/develop branches.
+This project has two GitHub Actions workflows:
 
-### CI Checks
+### 1. CI Pipeline (`.github/workflows/ci.yml`)
+Runs on every push and pull request to main/master/develop branches.
 
-The pipeline performs the following checks:
+### 2. GitHub Pages Deployment (`.github/workflows/deploy.yml`)
+Automatically deploys the app to GitHub Pages after successful push to main branch.
+
+## CI Pipeline
+
+The CI workflow performs the following checks:
 
 1. **Prettier Formatting** - Ensures all code follows consistent formatting rules
 2. **ESLint** - Checks TypeScript code for potential errors and code quality issues
@@ -34,8 +40,55 @@ The pipeline performs the following checks:
 #### Build
 - `npm run build` - Build the production application
 - `npm run watch` - Build in watch mode for development
+- `npm run build:gh-pages` - Build for GitHub Pages with correct base href
 
-### Running All CI Checks Locally
+## GitHub Pages Deployment
+
+### Automatic Deployment
+
+The app is automatically deployed to GitHub Pages when code is pushed to the `main` branch.
+
+**Workflow**: `.github/workflows/deploy.yml`
+
+### Deployment Process
+
+1. **Trigger**: Push to main branch
+2. **Run Tests**: Ensures all tests pass before deployment
+3. **Build**: Creates production build with `npm run build:gh-pages`
+4. **Add .nojekyll**: Prevents Jekyll processing
+5. **Create 404.html**: Enables client-side routing
+6. **Deploy**: Publishes to `gh-pages` branch
+
+### Output Directory
+
+- Build output: `docs/browser/`
+- Deployed from: `gh-pages` branch
+- Base href: `/angular-sudoku3/`
+
+### GitHub Pages Setup
+
+To enable GitHub Pages for your repository:
+
+1. Go to repository **Settings** → **Pages**
+2. Under "Build and deployment":
+   - Source: **Deploy from a branch**
+   - Branch: **gh-pages** / **(root)**
+3. Save the settings
+
+The site will be available at: `https://YOUR_USERNAME.github.io/angular-sudoku3/`
+
+### Manual Deployment
+
+You can also deploy manually:
+
+```bash
+# Build for GitHub Pages
+npm run build:gh-pages
+
+# The docs/browser/ directory can be deployed to any static hosting
+```
+
+## Running All CI Checks Locally
 
 Before pushing your code, you can run all CI checks locally:
 
