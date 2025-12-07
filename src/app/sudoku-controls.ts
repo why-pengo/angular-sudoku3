@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { SudokuService } from './sudoku.service';
 
 @Component({
@@ -13,7 +14,8 @@ import { SudokuService } from './sudoku.service';
     MatButtonModule,
     MatIconModule,
     MatButtonToggleModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTooltipModule
   ],
   templateUrl: './sudoku-controls.html',
   styleUrl: './sudoku-controls.scss'

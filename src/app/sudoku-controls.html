@@ -1,20 +1,20 @@
 <div class="controls-container">
-  <div class="top-controls">
+  <div class="left-controls">
     <mat-button-toggle-group
       [value]="isPencilMode() ? 'pencil' : 'pen'"
       (change)="togglePencilMode()">
       <mat-button-toggle value="pen">
         <mat-icon>edit</mat-icon>
-        Pen
+        <span class="toggle-label">Pen</span>
       </mat-button-toggle>
       <mat-button-toggle value="pencil">
         <mat-icon>create</mat-icon>
-        Pencil
+        <span class="toggle-label">Pencil</span>
       </mat-button-toggle>
     </mat-button-toggle-group>
 
     <div class="game-controls">
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" class="difficulty-select">
         <mat-label>Difficulty</mat-label>
         <mat-select
           [value]="difficulty()"
@@ -25,40 +25,41 @@
         </mat-select>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" (click)="onNewGame()">
+      <button mat-raised-button color="accent" (click)="onNewGame()">
         <mat-icon>refresh</mat-icon>
-        New Game
+        <span class="button-label">New Game</span>
       </button>
     </div>
   </div>
 
-  @if (isGameComplete()) {
-    <div class="completion-message">
-      <mat-icon>celebration</mat-icon>
-      Congratulations! You completed the puzzle!
-    </div>
-  }
-
-  <div class="number-pad">
-    @for (num of [1, 2, 3, 4, 5, 6, 7, 8, 9]; track num) {
-      <button
-        mat-raised-button
-        class="number-button"
-        [disabled]="!selectedCell()"
-        (click)="onNumberClick(num)">
-        {{ num }}
-      </button>
+  <div class="right-controls">
+    @if (isGameComplete()) {
+      <div class="completion-message">
+        <mat-icon>celebration</mat-icon>
+        <span>Puzzle Complete!</span>
+      </div>
     }
-  </div>
 
-  <div class="action-buttons">
+    <div class="number-pad">
+      @for (num of [1, 2, 3, 4, 5, 6, 7, 8, 9]; track num) {
+        <button
+          mat-mini-fab
+          class="number-button"
+          [disabled]="!selectedCell()"
+          (click)="onNumberClick(num)">
+          {{ num }}
+        </button>
+      }
+    </div>
+
     <button
-      mat-raised-button
+      mat-mini-fab
       color="warn"
+      class="clear-button"
       [disabled]="!selectedCell()"
-      (click)="onClearCell()">
+      (click)="onClearCell()"
+      matTooltip="Clear cell">
       <mat-icon>backspace</mat-icon>
-      Clear
     </button>
   </div>
 </div>

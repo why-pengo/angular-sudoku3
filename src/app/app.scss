@@ -16,18 +16,43 @@ mat-toolbar {
   flex-shrink: 0;
 }
 
+.sudoku-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  padding: 8px 16px !important;
+  min-height: auto !important;
+  height: auto !important;
+
+  .title {
+    font-size: 20px;
+    font-weight: 500;
+    margin-right: 20px;
+  }
+
+  app-sudoku-controls {
+    flex: 1;
+    display: flex;
+    min-width: 0;
+  }
+
+  @media (max-width: 768px) {
+    gap: 10px;
+    padding: 8px !important;
+
+    .title {
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 8px;
+    }
+  }
+}
+
 .content {
   flex: 1;
   display: flex;
   overflow: hidden;
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-  }
-
-  @media (min-width: 1025px) {
-    flex-direction: row;
-  }
 }
 
 app-sudoku-board {
@@ -36,17 +61,4 @@ app-sudoku-board {
   overflow: auto;
 }
 
-app-sudoku-controls {
-  display: flex;
-  justify-content: center;
-  overflow: auto;
-
-  @media (max-width: 1024px) {
-    border-top: 1px solid #e0e0e0;
-  }
-
-  @media (min-width: 1025px) {
-    border-left: 1px solid #e0e0e0;
-  }
-}
 
