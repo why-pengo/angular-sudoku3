@@ -16,14 +16,14 @@ export interface GameState {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SudokuService {
   private readonly STORAGE_KEY = 'sudoku-game-state';
 
   board = signal<Cell[][]>(this.createEmptyBoard());
   solution = signal<number[][]>([]);
-  selectedCell = signal<{row: number, col: number} | null>(null);
+  selectedCell = signal<{ row: number; col: number } | null>(null);
   isPencilMode = signal<boolean>(false);
   difficulty = signal<'easy' | 'medium' | 'hard'>('medium');
   startTime = signal<number>(Date.now());
@@ -50,14 +50,18 @@ export class SudokuService {
   }
 
   private createEmptyBoard(): Cell[][] {
-    return Array(9).fill(null).map(() =>
-      Array(9).fill(null).map(() => ({
-        value: 0,
-        isFixed: false,
-        pencilMarks: new Set<number>(),
-        isCorrect: undefined
-      }))
-    );
+    return Array(9)
+      .fill(null)
+      .map(() =>
+        Array(9)
+          .fill(null)
+          .map(() => ({
+            value: 0,
+            isFixed: false,
+            pencilMarks: new Set<number>(),
+            isCorrect: undefined,
+          })),
+      );
   }
 
   newGame(difficulty: 'easy' | 'medium' | 'hard' = 'medium'): void {
@@ -116,11 +120,11 @@ export class SudokuService {
   }
 
   selectCell(row: number, col: number): void {
-    this.selectedCell.set({row, col});
+    this.selectedCell.set({ row, col });
   }
 
   togglePencilMode(): void {
-    this.isPencilMode.update(mode => !mode);
+    this.isPencilMode.update((mode) => !mode);
   }
 
   clearCell(row: number, col: number): void {
@@ -139,16 +143,16 @@ export class SudokuService {
 
   saveGameState(): void {
     const state: GameState = {
-      board: this.board().map(row =>
-        row.map(cell => ({
+      board: this.board().map((row) =>
+        row.map((cell) => ({
           ...cell,
-          pencilMarks: Array.from(cell.pencilMarks)
-        }))
+          pencilMarks: Array.from(cell.pencilMarks),
+        })),
       ) as any,
       solution: this.solution(),
       difficulty: this.difficulty(),
       startTime: this.startTime(),
-      elapsedTime: this.elapsedTime()
+      elapsedTime: this.elapsedTime(),
     };
 
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(state));
@@ -160,11 +164,11 @@ export class SudokuService {
       try {
         const state: GameState = JSON.parse(saved);
 
-        const loadedBoard = state.board.map(row =>
+        const loadedBoard = state.board.map((row) =>
           row.map((cell: any) => ({
             ...cell,
-            pencilMarks: new Set(cell.pencilMarks)
-          }))
+            pencilMarks: new Set(cell.pencilMarks),
+          })),
         );
 
         this.board.set(loadedBoard);
@@ -186,12 +190,15 @@ export class SudokuService {
   }
 
   // Sudoku generation logic
-  private generateSudoku(difficulty: 'easy' | 'medium' | 'hard'): { puzzle: number[][], solution: number[][] } {
+  private generateSudoku(difficulty: 'easy' | 'medium' | 'hard'): {
+    puzzle: number[][];
+    solution: number[][];
+  } {
     // Generate a complete valid Sudoku board
     const solution = this.generateCompleteSudoku();
 
     // Create puzzle by removing numbers
-    const puzzle = solution.map(row => [...row]);
+    const puzzle = solution.map((row) => [...row]);
     const cellsToRemove = difficulty === 'easy' ? 30 : difficulty === 'medium' ? 40 : 50;
 
     let removed = 0;
@@ -209,7 +216,9 @@ export class SudokuService {
   }
 
   private generateCompleteSudoku(): number[][] {
-    const board = Array(9).fill(null).map(() => Array(9).fill(0));
+    const board = Array(9)
+      .fill(null)
+      .map(() => Array(9).fill(0));
     this.fillBoard(board);
     return board;
   }
@@ -251,8 +260,8 @@ export class SudokuService {
     }
 
     // Check 3x3 box
-    const startRow = row - row % 3;
-    const startCol = col - col % 3;
+    const startRow = row - (row % 3);
+    const startCol = col - (col % 3);
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         if (board[i + startRow][j + startCol] === num) return false;
@@ -271,4 +280,3 @@ export class SudokuService {
     return result;
   }
 }
-

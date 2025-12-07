@@ -5,7 +5,8 @@
         @for (cell of row; track trackByIndex($index); let colIndex = $index) {
           <div
             [class]="getCellClass(rowIndex, colIndex).join(' ')"
-            (click)="onCellClick(rowIndex, colIndex)">
+            (click)="onCellClick(rowIndex, colIndex)"
+          >
             @if (cell.value !== 0) {
               <span class="cell-value">{{ cell.value }}</span>
             } @else if (getPencilMarks(rowIndex, colIndex).length > 0) {
@@ -21,4 +22,3 @@
     }
   </div>
 </div>
-

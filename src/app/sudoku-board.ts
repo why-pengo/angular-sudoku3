@@ -6,7 +6,7 @@ import { SudokuService } from './sudoku.service';
   selector: 'app-sudoku-board',
   imports: [CommonModule],
   templateUrl: './sudoku-board.html',
-  styleUrl: './sudoku-board.scss'
+  styleUrl: './sudoku-board.scss',
 })
 export class SudokuBoard {
   private sudokuService = inject(SudokuService);
@@ -86,4 +86,3 @@ export class SudokuBoard {
     return index;
   }
 }
-

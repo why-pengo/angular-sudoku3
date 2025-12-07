@@ -5,13 +5,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    SudokuBoard,
-    SudokuControls,
-    MatToolbarModule
-  ],
+  imports: [SudokuBoard, SudokuControls, MatToolbarModule],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
-export class App {
-}
+export class App {}

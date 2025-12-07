@@ -2,7 +2,8 @@
   <div class="left-controls">
     <mat-button-toggle-group
       [value]="isPencilMode() ? 'pencil' : 'pen'"
-      (change)="togglePencilMode()">
+      (change)="togglePencilMode()"
+    >
       <mat-button-toggle value="pen">
         <mat-icon>edit</mat-icon>
         <span class="toggle-label">Pen</span>
@@ -16,9 +17,7 @@
     <div class="game-controls">
       <mat-form-field appearance="outline" class="difficulty-select">
         <mat-label>Difficulty</mat-label>
-        <mat-select
-          [value]="difficulty()"
-          (selectionChange)="onDifficultyChange($event.value)">
+        <mat-select [value]="difficulty()" (selectionChange)="onDifficultyChange($event.value)">
           <mat-option value="easy">Easy</mat-option>
           <mat-option value="medium">Medium</mat-option>
           <mat-option value="hard">Hard</mat-option>
@@ -46,7 +45,8 @@
           mat-mini-fab
           class="number-button"
           [disabled]="!selectedCell()"
-          (click)="onNumberClick(num)">
+          (click)="onNumberClick(num)"
+        >
           {{ num }}
         </button>
       }
@@ -58,9 +58,9 @@
       class="clear-button"
       [disabled]="!selectedCell()"
       (click)="onClearCell()"
-      matTooltip="Clear cell">
+      matTooltip="Clear cell"
+    >
       <mat-icon>backspace</mat-icon>
     </button>
   </div>
 </div>
-
