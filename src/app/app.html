@@ -1,10 +1,8 @@
-<div class="app-container">
-  <mat-toolbar color="primary" class="sudoku-toolbar">
-    <span class="title">Sudoku</span>
-    <app-sudoku-controls></app-sudoku-controls>
-  </mat-toolbar>
+<div class="app">
+  <app-sudoku-toolbar class="app__toolbar"></app-sudoku-toolbar>
 
-  <div class="content">
-    <app-sudoku-board></app-sudoku-board>
-  </div>
+  <main class="app__main">
+    <app-sudoku-board class="app__board"></app-sudoku-board>
+    <app-sudoku-controls class="app__controls"></app-sudoku-controls>
+  </main>
 </div>

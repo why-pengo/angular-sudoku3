@@ -1,73 +1,47 @@
-<div class="controls-container">
-  <div class="left-controls">
+<div class="sudoku-controls">
+  @if (isGameComplete()) {
+    <div class="sudoku-controls__complete" role="status">
+      <mat-icon>celebration</mat-icon>
+      <span>Puzzle Complete!</span>
+    </div>
+  } @else {
     <mat-button-toggle-group
+      class="sudoku-controls__mode"
+      aria-label="Entry mode"
+      hideSingleSelectionIndicator
       [value]="isPencilMode() ? 'pencil' : 'pen'"
       (change)="togglePencilMode()"
     >
       <mat-button-toggle value="pen">
         <mat-icon>edit</mat-icon>
-        <span class="toggle-label">Pen</span>
+        <span>Pen</span>
       </mat-button-toggle>
       <mat-button-toggle value="pencil">
         <mat-icon>create</mat-icon>
-        <span class="toggle-label">Pencil</span>
+        <span>Pencil</span>
       </mat-button-toggle>
     </mat-button-toggle-group>
+  }
 
-    <div class="game-controls">
-      <mat-form-field appearance="outline" class="difficulty-select">
-        <mat-label>Difficulty</mat-label>
-        <mat-select [value]="difficulty()" (selectionChange)="onDifficultyChange($event.value)">
-          <mat-option value="easy">Easy</mat-option>
-          <mat-option value="medium">Medium</mat-option>
-          <mat-option value="hard">Hard</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <button mat-raised-button color="accent" (click)="onNewGame()">
-        <mat-icon>refresh</mat-icon>
-        <span class="button-label">New Game</span>
-      </button>
-
+  <div class="sudoku-controls__pad">
+    @for (num of [1, 2, 3, 4, 5, 6, 7, 8, 9]; track num) {
       <button
-        mat-icon-button
-        (click)="toggleDarkMode()"
-        [matTooltip]="isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
-        class="theme-toggle"
+        matButton="tonal"
+        class="sudoku-controls__key"
+        [disabled]="!selectedCell()"
+        (click)="onNumberClick(num)"
       >
-        <mat-icon>{{ isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+        {{ num }}
       </button>
-    </div>
-  </div>
-
-  <div class="right-controls">
-    @if (isGameComplete()) {
-      <div class="completion-message">
-        <mat-icon>celebration</mat-icon>
-        <span>Puzzle Complete!</span>
-      </div>
     }
 
-    <div class="number-pad">
-      @for (num of [1, 2, 3, 4, 5, 6, 7, 8, 9]; track num) {
-        <button
-          mat-mini-fab
-          class="number-button"
-          [disabled]="!selectedCell()"
-          (click)="onNumberClick(num)"
-        >
-          {{ num }}
-        </button>
-      }
-    </div>
-
     <button
-      mat-mini-fab
-      color="warn"
-      class="clear-button"
+      matButton="outlined"
+      class="sudoku-controls__key sudoku-controls__key--clear"
+      aria-label="Clear cell"
+      matTooltip="Clear cell"
       [disabled]="!selectedCell()"
       (click)="onClearCell()"
-      matTooltip="Clear cell"
     >
       <mat-icon>backspace</mat-icon>
     </button>
