@@ -1,14 +1,14 @@
 {
   "extends": "stylelint-config-standard-scss",
   "rules": {
-    "selector-class-pattern": null,
-    "custom-property-pattern": null,
-    "selector-pseudo-element-no-unknown": [
-      true,
+    "selector-class-pattern": [
+      "^[a-z][a-z0-9]*(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?(--[a-z0-9]+(-[a-z0-9]+)*)?$",
       {
-        "ignorePseudoElements": ["ng-deep"]
+        "message": "Use BEM class names: block__element--modifier"
       }
     ],
+    "custom-property-pattern": null,
+    "declaration-no-important": true,
     "media-feature-range-notation": null,
     "at-rule-empty-line-before": null,
     "scss/at-mixin-argumentless-call-parentheses": null,
@@ -20,4 +20,3 @@
     ]
   }
 }
-
