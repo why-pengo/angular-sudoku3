@@ -110,11 +110,14 @@ html.dark-mode {
 @media (orientation: landscape) {
   .app__main {
     grid-template-columns: minmax(0, calc(100dvh - var(--app-toolbar-height) - 16px)) auto;
+    grid-template-rows: minmax(0, 1fr);
     justify-content: center;
   }
 
   .app__controls {
     align-self: center;
+    max-height: 100%;
+    overflow-y: auto;
   }
 }
 
@@ -326,6 +329,11 @@ button.sudoku-controls__key > .mat-icon {
   margin: 0;
 }
 
+// Keys are already at least 44px; Material's 48px target would overflow the scrolling panel.
+button.sudoku-controls__key > .mat-mdc-button-touch-target {
+  display: none;
+}
+
 .sudoku-controls__key--clear {
   grid-column: 1 / -1;
 }
@@ -376,5 +384,18 @@ button.sudoku-controls__key > .mat-icon {
 
   button.sudoku-toolbar__new-game > .mat-icon {
     margin: 0;
+  }
+}
+
+// Too short for four rows of keys beside the board: use two wider rows instead.
+@media (orientation: landscape) and (max-height: 309px) {
+  .sudoku-controls {
+    --pad-columns: 5;
+
+    width: calc(var(--key-size) * 5 + var(--key-gap) * 4);
+  }
+
+  .sudoku-controls__key--clear {
+    grid-column: auto;
   }
 }
