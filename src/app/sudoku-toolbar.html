@@ -1,0 +1,34 @@
+<mat-toolbar class="sudoku-toolbar">
+  <span class="sudoku-toolbar__title">Sudoku</span>
+
+  <mat-form-field appearance="outline" subscriptSizing="dynamic" class="sudoku-toolbar__difficulty">
+    <mat-select
+      aria-label="Difficulty"
+      [value]="difficulty()"
+      (selectionChange)="onDifficultyChange($event.value)"
+    >
+      <mat-option value="easy">Easy</mat-option>
+      <mat-option value="medium">Medium</mat-option>
+      <mat-option value="hard">Hard</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button
+    mat-raised-button
+    class="sudoku-toolbar__new-game"
+    aria-label="New game"
+    (click)="onNewGame()"
+  >
+    <mat-icon>refresh</mat-icon>
+    <span class="sudoku-toolbar__new-game-label">New Game</span>
+  </button>
+
+  <button
+    mat-icon-button
+    [attr.aria-label]="isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
+    [matTooltip]="isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
+    (click)="toggleDarkMode()"
+  >
+    <mat-icon>{{ isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+  </button>
+</mat-toolbar>

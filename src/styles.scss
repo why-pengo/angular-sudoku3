@@ -21,6 +21,21 @@ $dark-theme: mat.define-theme(
 
 html {
   @include mat.all-component-themes($light-theme);
+
+  --app-toolbar-height: 52px;
+  --board-cell-bg: #fff;
+  --board-cell-hover: #f5f5f5;
+  --board-cell-text: inherit;
+  --board-fixed-text: #000;
+  --board-group-bg: #e3f2fd;
+  --board-selected-bg: #bbdefb;
+  --board-highlight-bg: #c5e1a5;
+  --board-incorrect-bg: #ffcdd2;
+  --board-incorrect-text: #c62828;
+  --board-correct-text: #2e7d32;
+  --board-mark-text: #666;
+  --board-line-thin: #ccc;
+  --board-line-box: #000;
 }
 
 html,
@@ -42,8 +57,324 @@ body {
 html.dark-mode {
   @include mat.all-component-colors($dark-theme);
 
+  --board-cell-bg: #1e1e1e;
+  --board-cell-hover: #2a2a2a;
+  --board-cell-text: #e0e0e0;
+  --board-fixed-text: #bb86fc;
+  --board-group-bg: #252541;
+  --board-selected-bg: #2c2c54;
+  --board-highlight-bg: #3d4e2f;
+  --board-incorrect-bg: #5c2626;
+  --board-incorrect-text: #ff6b6b;
+  --board-correct-text: #81c784;
+  --board-mark-text: #999;
+  --board-line-thin: #444;
+  --board-line-box: #888;
+
   body {
     background-color: #121212;
     color: #e0e0e0;
+  }
+}
+
+// App shell: toolbar on top; everything below shares the remaining height.
+.app {
+  display: grid;
+  grid-template-rows: var(--app-toolbar-height) minmax(0, 1fr);
+  height: 100dvh;
+}
+
+.app__main {
+  display: grid;
+  gap: 8px;
+  padding: 8px;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+// The board measures this container, so it always gets exactly the space left over.
+.app__board {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 0;
+  container-type: size;
+}
+
+.app__controls {
+  display: block;
+  min-width: 0;
+}
+
+// Landscape: controls beside the board, grouped in the centre on very wide screens.
+@media (orientation: landscape) {
+  .app__main {
+    grid-template-columns: minmax(0, calc(100dvh - var(--app-toolbar-height) - 16px)) auto;
+    justify-content: center;
+  }
+
+  .app__controls {
+    align-self: center;
+  }
+}
+
+// Portrait: controls below the board.
+@media (orientation: portrait) {
+  .app__main {
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+}
+
+@media (max-height: 480px) {
+  html {
+    --app-toolbar-height: 44px;
+  }
+}
+
+// Toolbar
+.sudoku-toolbar {
+  --mat-toolbar-standard-height: var(--app-toolbar-height);
+  --mat-toolbar-mobile-height: var(--app-toolbar-height);
+
+  gap: 8px;
+  padding: 0 8px;
+}
+
+.sudoku-toolbar__title {
+  margin-right: auto;
+  font-size: clamp(16px, 4vmin, 20px);
+  font-weight: 500;
+}
+
+.sudoku-toolbar__difficulty {
+  --mat-form-field-container-height: 36px;
+  --mat-form-field-container-vertical-padding: 6px;
+  --mat-form-field-container-text-size: 14px;
+
+  width: 112px;
+  font-size: 14px;
+}
+
+.sudoku-toolbar__new-game {
+  flex-shrink: 0;
+}
+
+// Board
+.sudoku-board {
+  --board-size: min(100cqw, 100cqh);
+  --cell-size: calc(var(--board-size) / 9);
+  --line-thin: 1px;
+  --line-box: clamp(2px, calc(var(--cell-size) * 0.035), 5px);
+
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  grid-template-rows: repeat(9, minmax(0, 1fr));
+  gap: var(--line-thin);
+  box-sizing: border-box;
+  width: var(--board-size);
+  height: var(--board-size);
+  background-color: var(--board-line-thin);
+  border: var(--line-box) solid var(--board-line-box);
+}
+
+.sudoku-board__row {
+  display: contents;
+}
+
+.sudoku-board__cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  font-size: calc(var(--cell-size) * 0.6);
+  line-height: 1;
+  color: var(--board-cell-text);
+  background-color: var(--board-cell-bg);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+// Box lines are drawn over the thin grid gaps, so every cell stays the same size.
+.sudoku-board__cell:nth-child(3n):not(:last-child)::after,
+.sudoku-board__row:nth-child(3n):not(:last-child) .sudoku-board__cell::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  background-color: var(--board-line-box);
+  pointer-events: none;
+}
+
+.sudoku-board__cell:nth-child(3n):not(:last-child)::after {
+  top: calc(var(--line-thin) * -1);
+  right: calc((var(--line-thin) + var(--line-box)) / -2);
+  bottom: calc(var(--line-thin) * -1);
+  width: var(--line-box);
+}
+
+.sudoku-board__row:nth-child(3n):not(:last-child) .sudoku-board__cell::before {
+  right: calc(var(--line-thin) * -1);
+  bottom: calc((var(--line-thin) + var(--line-box)) / -2);
+  left: calc(var(--line-thin) * -1);
+  height: var(--line-box);
+}
+
+// Kept at one class of specificity so the state modifiers below always win.
+.sudoku-board__cell:where(:hover:not(.sudoku-board__cell--fixed)) {
+  background-color: var(--board-cell-hover);
+}
+
+.sudoku-board__cell--same-group {
+  background-color: var(--board-group-bg);
+}
+
+.sudoku-board__cell--incorrect {
+  color: var(--board-incorrect-text);
+  background-color: var(--board-incorrect-bg);
+}
+
+.sudoku-board__cell--correct {
+  color: var(--board-correct-text);
+}
+
+.sudoku-board__cell--highlighted {
+  background-color: var(--board-highlight-bg);
+}
+
+.sudoku-board__cell--selected {
+  background-color: var(--board-selected-bg);
+}
+
+.sudoku-board__cell--fixed {
+  color: var(--board-fixed-text);
+}
+
+.sudoku-board__value {
+  font-weight: 500;
+}
+
+.sudoku-board__cell--fixed .sudoku-board__value {
+  font-weight: 700;
+}
+
+.sudoku-board__marks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 4%;
+}
+
+.sudoku-board__mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--cell-size) * 0.3);
+  color: var(--board-mark-text);
+}
+
+// Controls
+.sudoku-controls {
+  --mat-button-toggle-height: 40px;
+  --key-size: clamp(44px, 10vmin, 88px);
+  --key-gap: 6px;
+  --pad-columns: 3;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: max(184px, calc(var(--key-size) * 3 + var(--key-gap) * 2));
+}
+
+.sudoku-controls__mode {
+  width: 100%;
+}
+
+.sudoku-controls__mode .mat-button-toggle {
+  flex: 1;
+}
+
+.sudoku-controls .sudoku-controls__mode .mat-button-toggle-label-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 8px;
+}
+
+.sudoku-controls__pad {
+  display: grid;
+  grid-template-columns: repeat(var(--pad-columns), minmax(0, 1fr));
+  gap: var(--key-gap);
+}
+
+button.sudoku-controls__key {
+  width: 100%;
+  min-width: 0;
+  height: var(--key-size);
+  padding: 0;
+  font-size: calc(var(--key-size) * 0.42);
+  font-weight: 500;
+}
+
+button.sudoku-controls__key > .mat-icon {
+  margin: 0;
+}
+
+.sudoku-controls__key--clear {
+  grid-column: 1 / -1;
+}
+
+.sudoku-controls__complete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  height: 40px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #fff;
+  background-color: #2e7d32;
+  border-radius: 20px;
+}
+
+@media (orientation: portrait) {
+  .sudoku-controls {
+    --key-size: clamp(44px, 7dvh, 72px);
+    --pad-columns: 10;
+
+    width: 100%;
+  }
+
+  .sudoku-controls__key--clear {
+    grid-column: auto;
+  }
+}
+
+// Ten keys in a row would be too narrow to tap on a phone.
+@media (orientation: portrait) and (max-width: 559px) {
+  .sudoku-controls {
+    --pad-columns: 5;
+  }
+
+  .sudoku-toolbar__new-game-label {
+    display: none;
+  }
+
+  button.sudoku-toolbar__new-game {
+    min-width: 0;
+    padding: 0 10px;
+  }
+
+  button.sudoku-toolbar__new-game > .mat-icon {
+    margin: 0;
   }
 }
